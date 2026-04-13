@@ -1,0 +1,43 @@
+#gameCanvas {
+    border: 5px solid white;
+    background-color: black;
+    display: block;
+    margin: 0 auto;
+}
+
+@font-face {
+    font-family: 'gameplay';
+    src: url('../FONTS/Gameplay.ttf') format('truetype');
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #1f1f1f;
+    font-family: 'gameplay';
+}
+h1{
+    color: white;
+    position: absolute;
+    top: 50px;
+    
+}
+#pts-J1{
+    color: white;
+    position: absolute;
+    right: calc(50% + 430px);
+    font-size: 100px;
+}
+#pts-J2{
+    color: white;
+    position: absolute;
+    left: calc(50% + 430px);
+    font-size: 100px;
+}
+#reset{
+    position: absolute;
+    top: 800px
+    
+}
