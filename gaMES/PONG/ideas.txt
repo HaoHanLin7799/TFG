@@ -1,7 +1,7 @@
 PONG
 - Colisión correcta **FALLO EN LAS COLISIONES ENTRE EL JUGADOR Y LA PELOTA
-- Ventana emergente para seleccionar numero de rondas/Puntuación máxima.
 - Limite de saques seguidos.
+- Ventana emergente para seleccionar numero de rondas/Puntuación máxima.
 
 
 MÁS JUEGOS
