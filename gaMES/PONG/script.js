@@ -3,6 +3,7 @@ var pelota;
 var jugador1;
 var jugador2;
 
+
 var HEIGHT;
 var WIDTH;
 
@@ -33,9 +34,10 @@ class ball {
         this.ancho = 25;
         this.alto = 25;
     }
+    
     mover(direccion){
-        this.x +=direccion * pelota.velX;
-        this.y += direccion *pelota.velY;
+        this.x +=direccion * this.velX;
+        this.y += direccion *this.velY;
     }
 }
 
@@ -78,11 +80,23 @@ function colisiones(){
     if (jugador2.y + jugador2.alto > HEIGHT) jugador2.y = HEIGHT - jugador2.alto;
                 
     //Colisión de la pelota con los jugadores
-    if(pelota.x <jugador1.x+jugador1.ancho && pelota.x + pelota.ancho > jugador1.x && pelota.y < jugador1.y + jugador1.alto && pelota.y + pelota.alto > jugador1.y){
-        pelota.velX = -pelota.velX;
+    if(pelota.x <jugador1.x+jugador1.ancho 
+    && pelota.x + pelota.ancho > jugador1.x 
+    && pelota.y < jugador1.y + jugador1.alto 
+    && pelota.y + pelota.alto > jugador1.y){
+
+        pelota.x =  jugador1.x + jugador1.ancho;
+        pelota.velX = -Math.abs(pelota.velX);
     }
-    if(pelota.x <jugador2.x+jugador2.ancho && pelota.x + pelota.ancho > jugador2.x && pelota.y < jugador2.y + jugador2.alto && pelota.y + pelota.alto > jugador2.y){
-        pelota.velX = -pelota.velX;
+
+    
+    if(pelota.x <jugador2.x+jugador2.ancho 
+    && pelota.x + pelota.ancho > jugador2.x 
+    && pelota.y < jugador2.y + jugador2.alto 
+    && pelota.y + pelota.alto > jugador2.y){
+
+        pelota.x =  jugador2.x-jugador2.ancho;
+        pelota.velX = Math.abs(pelota.velX);
     }
 }
  function puntos(){   // Lee si la pelota ha tocado la linea de fondo y alerta de quien ha puntuado
@@ -110,7 +124,7 @@ function colisiones(){
 
     function draw(){
         ctx.clearRect(0,0,WIDTH,HEIGHT);
-        ctx.fillStyle = "#fffc"
+        ctx.fillStyle = "#fffc";
 
         //Linea del medio
         ctx.fillRect(WIDTH/2-4,10,WIDTH/WIDTH+5,HEIGHT-20);

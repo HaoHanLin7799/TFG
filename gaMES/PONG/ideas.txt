@@ -1,5 +1,4 @@
 PONG
-- Colisión correcta **FALLO EN LAS COLISIONES ENTRE EL JUGADOR Y LA PELOTA
 - Limite de saques seguidos.
 - Ventana emergente para seleccionar numero de rondas/Puntuación máxima.
 
