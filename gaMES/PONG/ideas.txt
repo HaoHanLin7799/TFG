@@ -1,6 +1,8 @@
 PONG
 - Limite de saques seguidos.
-- Ventana emergente para seleccionar numero de rondas/Puntuación máxima.
+- Ventana emergente para personalizar la partida (velocidad, numero de rondas, tamaño de la pelota)
+- PJ VS BOT
+- Modo velocidad incremental
 
 
 MÁS JUEGOS

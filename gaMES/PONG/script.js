@@ -14,7 +14,7 @@ class jugador {
         this.x = x;
         this.y = y;
         this.velX = 0;
-        this.velY = 5;
+        this.velY = 10;
         this.ancho = 25;
         this.alto = 150;
         this.puntos = 0;
@@ -29,8 +29,8 @@ class ball {
     constructor(x,y){
         this.x = x;
         this.y = y;
-        this.velX = 3;
-        this.velY = 3;
+        this.velX = 7;
+        this.velY = 7;
         this.ancho = 25;
         this.alto = 25;
     }
@@ -86,6 +86,7 @@ function colisiones(){
     && pelota.y + pelota.alto > jugador1.y){
 
         pelota.x =  jugador1.x + jugador1.ancho;
+        pelota.velX = 15;
         pelota.velX = -Math.abs(pelota.velX);
     }
 
@@ -96,10 +97,11 @@ function colisiones(){
     && pelota.y + pelota.alto > jugador2.y){
 
         pelota.x =  jugador2.x-jugador2.ancho;
+        pelota.velX = 15;
         pelota.velX = Math.abs(pelota.velX);
     }
 }
- function puntos(){   // Lee si la pelota ha tocado la linea de fondo y alerta de quien ha puntuado
+ function puntos(){
 
     //Puntos Jugador 1
     if (pelota.x + pelota.ancho > WIDTH+30){
@@ -108,6 +110,7 @@ function colisiones(){
         jugador2.y = HEIGHT/2;
         pelota.x = WIDTH/2;
         jugador1.puntos += 1;
+        pelota.velX = -7;
         document.getElementById("pts-J1").innerHTML = jugador1.puntos;
     }
 
@@ -118,6 +121,7 @@ function colisiones(){
         jugador2.y = HEIGHT/2;
         pelota.x = WIDTH/2;
         jugador2.puntos += 1;
+        pelota.velX = 7;
         document.getElementById("pts-J2").innerHTML = jugador2.puntos;
     }
     }
