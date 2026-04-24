@@ -1,16 +1,13 @@
 PONG
-- Limite de saques seguidos.
 - PJ VS BOT
 - Tamaño del campo de jugeo adaptativo al tamaño de ventana del usuario.
 - Ventana emergente para personalizar la partida (velocidad, numero de rondas, tamaño de la pelota)
 - Control del jugador 2 con mando.
+
+TAMAÑO MÁXIMO DE LA PELOTA PARA QUE NO SURJAN DESVENTAJAS ES 450
 
 MÁS JUEGOS
 - Mini nivel de Mario Bros / similares
 - flappy bird
 - dino de google
 - Esquivar coches
-
-
-
-Limite de tamaño de pelota 40 o se buguea con las colisiones del jugador 2;

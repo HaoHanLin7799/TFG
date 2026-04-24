@@ -12,7 +12,7 @@ class jugador {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.velX = 0;
+        this.velX = 0; //Sin utilidad por el momento, Idea: añadir un modo con controles para el eje X
         this.velY = 10;
         this.ancho = 25;
         this.alto = 150;
@@ -31,22 +31,24 @@ class ball {
         this.y = y;
         this.velX = 7;
         this.velY = 7;
-        this.ancho = 25;
+        this.ancho = 25; //450 MAX
         this.alto =this.ancho;
     }
 
-    mover(direccion) {
-        this.x += direccion * this.velX;
-        this.y += direccion * this.velY;
+    moverX() {
+        this.x += this.velX;
+    }
+    moverY(){
+    this.y += this.velY;
     }
 }
 
 
 function createObjets() {
 
-    jugador1 = new jugador(30, HEIGHT / 2);
-    jugador2 = new jugador(WIDTH - 50, HEIGHT / 2);
-    pelota = new ball(WIDTH / 2, HEIGHT / 2);
+    jugador1 = new jugador(30, HEIGHT / 2 - 75);
+    jugador2 = new jugador(WIDTH - 50, HEIGHT / 2 - 75);
+    pelota = new ball(WIDTH / 2 - 12.5, HEIGHT / 2 - 12.5);
 }
 
 function load() {
@@ -69,7 +71,8 @@ function moveObjets() {
         pelota.velY = -pelota.velY;
     }
 
-    pelota.mover(-1);
+    pelota.moverX();
+    pelota.moverY();
 }
 function colisiones() {
     // Limites de pantalla para jugadores
@@ -86,31 +89,30 @@ function colisiones() {
         && pelota.y + pelota.alto > jugador1.y) {
 
         pelota.x = jugador1.x + jugador1.ancho;
-        pelota.velX = 15;
-        pelota.velX = -Math.abs(pelota.velX);
+        pelota.velX = Math.abs(15);
     }
 
 
-    if (pelota.x < jugador2.x + jugador2.ancho
+    if (pelota.x + pelota.ancho < jugador2.x + jugador2.ancho
         && pelota.x + pelota.ancho > jugador2.x
         && pelota.y < jugador2.y + jugador2.alto
         && pelota.y + pelota.alto > jugador2.y) {
 
-        pelota.x = jugador2.x - jugador2.ancho;
-        pelota.velX = 15;
-        pelota.velX = Math.abs(pelota.velX);
+        pelota.x = jugador2.x - pelota.ancho;
+        pelota.velX = -Math.abs(15);
     }
 }
 function puntos() {
 
     //Puntos Jugador 1
-    if (pelota.x + pelota.ancho > WIDTH + 30) {
+    if (pelota.x > WIDTH) {
 
-        jugador1.y = HEIGHT / 2;
-        jugador2.y = HEIGHT / 2;
-        pelota.x = WIDTH / 2;
+        jugador1.y = HEIGHT / 2 - 75;
+        jugador2.y = HEIGHT / 2 - 75;
+        pelota.x = WIDTH / 2 - 12.5;
+        pelota.y = HEIGHT / 2 - 12.5; // ESTO HACE QUE LA PELOTA SE REINICIE POR COMPLETO TRAS EL PUNTO, SI SE ELIMINA SE HARIA EL JUEGO MÁS ALEATORIO
         jugador1.puntos += 1;
-        pelota.velX = -7;
+        pelota.velX = 7;
         jugador2.limit += 1;
         jugador1.limit = 0;
         document.getElementById("pts-J1").innerHTML = jugador1.puntos;
@@ -119,24 +121,25 @@ function puntos() {
     //Puntos Jugador 2
     if (pelota.x + pelota.ancho < 0) {
 
-        jugador1.y = HEIGHT / 2;
-        jugador2.y = HEIGHT / 2;
-        pelota.x = WIDTH / 2;
+        jugador1.y = HEIGHT / 2 - 75;
+        jugador2.y = HEIGHT / 2 - 75;
+        pelota.x = WIDTH / 2 - 12.5;
+        pelota.y = HEIGHT / 2 - 12.5; //LEER COMENTARIO DE "//Puntos Jugador 1"
         jugador2.puntos += 1;
-        pelota.velX = 7;
+        pelota.velX = -7;
         jugador1.limit += 1;
         jugador2.limit = 0;
         document.getElementById("pts-J2").innerHTML = jugador2.puntos;
     }
 
-    if (jugador1.limit = 2){
+    if (jugador1.limit == 3){
         jugador1.limit = 0;
-        pelota.velX;
+        pelota.velX = 7;
     }
 
-    if (jugador2.limit = 2){
-        jugador1.limit = 0;
-        pelota.velX;
+    if (jugador2.limit == 3){
+        jugador2.limit = 0;
+        pelota.velX = -7;
     }
 }
 
