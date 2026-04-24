@@ -3,14 +3,13 @@ var pelota;
 var jugador1;
 var jugador2;
 
-
 var HEIGHT;
 var WIDTH;
 
 var keys = {};
 
 class jugador {
-    constructor(x,y){
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.velX = 0;
@@ -18,49 +17,50 @@ class jugador {
         this.ancho = 25;
         this.alto = 150;
         this.puntos = 0;
+        this.limit = 0;
     }
 
-    mover(direccion){
-        this.y +=direccion * this.velY;
+    mover(direccion) {
+        this.y += direccion * this.velY;
     }
 }
 
 class ball {
-    constructor(x,y){
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.velX = 7;
         this.velY = 7;
         this.ancho = 25;
-        this.alto = 25;
+        this.alto =this.ancho;
     }
-    
-    mover(direccion){
-        this.x +=direccion * this.velX;
-        this.y += direccion *this.velY;
+
+    mover(direccion) {
+        this.x += direccion * this.velX;
+        this.y += direccion * this.velY;
     }
 }
 
 
-function createObjets(){
-    
-    jugador1 = new jugador(30, HEIGHT/2);
-    jugador2 = new jugador(WIDTH-50, HEIGHT/2);
-    pelota = new ball (WIDTH/2, HEIGHT/2);
+function createObjets() {
+
+    jugador1 = new jugador(30, HEIGHT / 2);
+    jugador2 = new jugador(WIDTH - 50, HEIGHT / 2);
+    pelota = new ball(WIDTH / 2, HEIGHT / 2);
 }
 
-function load(){
+function load() {
     const canvaArt = document.getElementById("gameCanvas");
     ctx = canvaArt.getContext("2d");
 
     WIDTH = parseInt(canvaArt.getAttribute("width"));
-    HEIGHT= parseInt(canvaArt.getAttribute("height"));
+    HEIGHT = parseInt(canvaArt.getAttribute("height"));
 
     createObjets();
     gameLoop();
 }
 
-function moveObjets(){
+function moveObjets() {
     if (pelota.y < 0) {
         pelota.y = 0;
         pelota.velY = -pelota.velY;
@@ -71,103 +71,117 @@ function moveObjets(){
 
     pelota.mover(-1);
 }
-function colisiones(){
+function colisiones() {
     // Limites de pantalla para jugadores
     if (jugador1.y < 0) jugador1.y = 0;
     if (jugador1.y + jugador1.alto > HEIGHT) jugador1.y = HEIGHT - jugador1.alto;
 
     if (jugador2.y < 0) jugador2.y = 0;
     if (jugador2.y + jugador2.alto > HEIGHT) jugador2.y = HEIGHT - jugador2.alto;
-                
-    //Colisión de la pelota con los jugadores
-    if(pelota.x <jugador1.x+jugador1.ancho 
-    && pelota.x + pelota.ancho > jugador1.x 
-    && pelota.y < jugador1.y + jugador1.alto 
-    && pelota.y + pelota.alto > jugador1.y){
 
-        pelota.x =  jugador1.x + jugador1.ancho;
+    //Colisión de la pelota con los jugadores
+    if (pelota.x < jugador1.x + jugador1.ancho
+        && pelota.x + pelota.ancho > jugador1.x
+        && pelota.y < jugador1.y + jugador1.alto
+        && pelota.y + pelota.alto > jugador1.y) {
+
+        pelota.x = jugador1.x + jugador1.ancho;
         pelota.velX = 15;
         pelota.velX = -Math.abs(pelota.velX);
     }
 
-    
-    if(pelota.x <jugador2.x+jugador2.ancho 
-    && pelota.x + pelota.ancho > jugador2.x 
-    && pelota.y < jugador2.y + jugador2.alto 
-    && pelota.y + pelota.alto > jugador2.y){
 
-        pelota.x =  jugador2.x-jugador2.ancho;
+    if (pelota.x < jugador2.x + jugador2.ancho
+        && pelota.x + pelota.ancho > jugador2.x
+        && pelota.y < jugador2.y + jugador2.alto
+        && pelota.y + pelota.alto > jugador2.y) {
+
+        pelota.x = jugador2.x - jugador2.ancho;
         pelota.velX = 15;
         pelota.velX = Math.abs(pelota.velX);
     }
 }
- function puntos(){
+function puntos() {
 
     //Puntos Jugador 1
-    if (pelota.x + pelota.ancho > WIDTH+30){
+    if (pelota.x + pelota.ancho > WIDTH + 30) {
 
-        jugador1.y = HEIGHT/2;
-        jugador2.y = HEIGHT/2;
-        pelota.x = WIDTH/2;
+        jugador1.y = HEIGHT / 2;
+        jugador2.y = HEIGHT / 2;
+        pelota.x = WIDTH / 2;
         jugador1.puntos += 1;
         pelota.velX = -7;
+        jugador2.limit += 1;
+        jugador1.limit = 0;
         document.getElementById("pts-J1").innerHTML = jugador1.puntos;
     }
 
     //Puntos Jugador 2
-    if (pelota.x + pelota.ancho < 0){
+    if (pelota.x + pelota.ancho < 0) {
 
-        jugador1.y = HEIGHT/2;
-        jugador2.y = HEIGHT/2;
-        pelota.x = WIDTH/2;
+        jugador1.y = HEIGHT / 2;
+        jugador2.y = HEIGHT / 2;
+        pelota.x = WIDTH / 2;
         jugador2.puntos += 1;
         pelota.velX = 7;
+        jugador1.limit += 1;
+        jugador2.limit = 0;
         document.getElementById("pts-J2").innerHTML = jugador2.puntos;
     }
+
+    if (jugador1.limit = 2){
+        jugador1.limit = 0;
+        pelota.velX;
     }
 
-    function draw(){
-        ctx.clearRect(0,0,WIDTH,HEIGHT);
-        ctx.fillStyle = "#fffc";
+    if (jugador2.limit = 2){
+        jugador1.limit = 0;
+        pelota.velX;
+    }
+}
 
-        //Linea del medio
-        ctx.fillRect(WIDTH/2-4,10,WIDTH/WIDTH+5,HEIGHT-20);
+function draw() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    ctx.fillStyle = "#fffc";
 
-        //Entidades
-        ctx.fillRect(jugador1.x, jugador1.y, jugador1.ancho, jugador1.alto);
-        ctx.fillRect(jugador2.x, jugador2.y, jugador2.ancho, jugador2.alto);
-        ctx.fillRect(pelota.x, pelota.y, pelota.ancho, pelota.alto);
+    //Linea del medio
+    ctx.fillRect(WIDTH / 2 - 4, 10, WIDTH / WIDTH + 5, HEIGHT - 20);
+
+    //Entidades
+    ctx.fillRect(jugador1.x, jugador1.y, jugador1.ancho, jugador1.alto);
+    ctx.fillRect(jugador2.x, jugador2.y, jugador2.ancho, jugador2.alto);
+    ctx.fillRect(pelota.x, pelota.y, pelota.ancho, pelota.alto);
+}
+
+document.addEventListener("keydown", (e) => {
+    keys[e.key] = true;
+});
+
+document.addEventListener("keyup", (e) => {
+    keys[e.key] = false;
+});
+
+function moverJugador() {
+    //Jugador 1
+    if (keys["w"] || keys['W']) {
+        jugador1.mover(-1);
     }
-    
-    document.addEventListener("keydown", (e) => {
-        keys[e.key] = true;
-    });
-    
-    document.addEventListener("keyup", (e) => {
-        keys[e.key] = false;
-    });
-    
-    function moverJugador(){
-        //Jugador 1
-        if(keys["w"] || keys['W']){
-            jugador1.mover(-1);
-        }
-        if(keys["s"] || keys['S']){
-            jugador1.mover(1);
-        }
-        //Jugador 2
-        if(keys["ArrowUp"]){
-            jugador2.mover(-1);
-        }
-        if(keys["ArrowDown"]){
-            jugador2.mover(1);
-        }
+    if (keys["s"] || keys['S']) {
+        jugador1.mover(1);
     }
-    function gameLoop(){
-        moveObjets();
-        colisiones();
-        puntos();
-        moverJugador();
-        draw();
-        requestAnimationFrame(gameLoop);
+    //Jugador 2
+    if (keys["ArrowUp"]) {
+        jugador2.mover(-1);
     }
+    if (keys["ArrowDown"]) {
+        jugador2.mover(1);
+    }
+}
+function gameLoop() {
+    moveObjets();
+    colisiones();
+    puntos();
+    moverJugador();
+    draw();
+    requestAnimationFrame(gameLoop);
+}
