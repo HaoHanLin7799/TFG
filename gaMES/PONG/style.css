@@ -11,6 +11,8 @@
 }
 body {
     display: flex;
+    flex-direction: column;
+    overflow: hidden;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -27,18 +29,19 @@ h1{
 #pts-J1{
     color: white;
     position: absolute;
-    right: calc(50% + 600px);
+    left: 5%;
     font-size: 100px;
 }
 #pts-J2{
     color: white;
     position: absolute;
-    left: calc(50% + 600px);
+    right: 5%;
     font-size: 100px;
 }
 #reset{
-    position: absolute;
-    top: 835px;
+    position: relative;
+    top: auto;
+    margin-top: 20px;
     color: lightgray;
     background-color: #a00;
     border: none;

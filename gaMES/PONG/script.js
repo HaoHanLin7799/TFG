@@ -1,3 +1,8 @@
+const baseHeight = 700,
+baseWidth = 1000;
+
+let scale = 1;
+
 var ctx;
 var pelota;
 var jugador1;
@@ -54,14 +59,28 @@ function createObjets() {
 }
 
 function load() {
-    const canvaArt = document.getElementById("gameCanvas");
-    ctx = canvaArt.getContext("2d");
+    const canvaAtr = document.getElementById("gameCanvas");
+    ctx = canvaAtr.getContext("2d");
 
-    WIDTH = parseInt(canvaArt.getAttribute("width"));
-    HEIGHT = parseInt(canvaArt.getAttribute("height"));
+    WIDTH = baseWidth;
+    HEIGHT = baseHeight;
+
+    resizeCanvas();
 
     createObjets();
     gameLoop();
+}
+
+function resizeCanvas(){
+    const canvas = document.getElementById("gameCanvas");
+
+    const availableW = window.innerWidth * 0.95;
+    const availableH = window.innerHeight * 0.85;
+
+    scale = Math.min(availableW / baseWidth, availableH / baseHeight);
+
+    canvas.style.width = (baseWidth * scale) + "px";
+    canvas.style.height = (baseHeight * scale) + "px";
 }
 
 function moveObjets() {
@@ -181,13 +200,16 @@ function moverJugador() {
     if (keys["ArrowDown"]) {
         jugador2.mover(1);
     }
+    /* if (jugador2.y == jugador2.y + 0 && pelota.velX == -Math.abs(pelota.velX)){
+            jugador2.y += pelota.velY * 1.3;
+    } */
 
 }
 
 //BOT FASE BETA
 function moveBot() {
   let paddleCenter = jugador2.y + jugador2.alto / 2;
-  let errorMargin = 30;
+  let errorMargin = Math.random();
     
     if (paddleCenter < pelota.y - errorMargin) {
     jugador2.y += jugador2.velY;
@@ -205,3 +227,5 @@ function gameLoop() {
     moveBot();
     requestAnimationFrame(gameLoop);
 }
+
+window.addEventListener("resize", resizeCanvas);
