@@ -49,6 +49,8 @@ function createObjets() {
     jugador1 = new jugador(30, HEIGHT / 2 - 75);
     jugador2 = new jugador(WIDTH - 50, HEIGHT / 2 - 75);
     pelota = new ball(WIDTH / 2 - 12.5, HEIGHT / 2 - 12.5);
+
+    jugador2.velY = 6.25; // VELOCIDAD PARA EL BOT
 }
 
 function load() {
@@ -72,7 +74,7 @@ function moveObjets() {
     }
 
     pelota.moverX();
-    pelota.moverY();
+    pelota.moverY();   
 }
 function colisiones() {
     // Limites de pantalla para jugadores
@@ -89,7 +91,7 @@ function colisiones() {
         && pelota.y + pelota.alto > jugador1.y) {
 
         pelota.x = jugador1.x + jugador1.ancho;
-        pelota.velX = Math.abs(15);
+        pelota.velX = Math.abs(25);
     }
 
 
@@ -99,7 +101,7 @@ function colisiones() {
         && pelota.y + pelota.alto > jugador2.y) {
 
         pelota.x = jugador2.x - pelota.ancho;
-        pelota.velX = -Math.abs(15);
+        pelota.velX = -Math.abs(25);
     }
 }
 function puntos() {
@@ -179,6 +181,20 @@ function moverJugador() {
     if (keys["ArrowDown"]) {
         jugador2.mover(1);
     }
+
+}
+
+//BOT FASE BETA
+function moveBot() {
+  let paddleCenter = jugador2.y + jugador2.alto / 2;
+  let errorMargin = 30;
+    
+    if (paddleCenter < pelota.y - errorMargin) {
+    jugador2.y += jugador2.velY;
+    } else if (paddleCenter > pelota.y + errorMargin) {
+    jugador2.y -= jugador2.velY;
+    }
+    
 }
 function gameLoop() {
     moveObjets();
@@ -186,5 +202,6 @@ function gameLoop() {
     puntos();
     moverJugador();
     draw();
+    moveBot();
     requestAnimationFrame(gameLoop);
 }
