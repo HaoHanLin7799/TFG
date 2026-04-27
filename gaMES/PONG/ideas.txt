@@ -1,0 +1,11 @@
+PONG
+- PJ VS BOT // En pruebas
+- Tamaño de l campo de jugeo adaptativo al tamaño de ventana del usuario.
+- Ventana emergente para personalizar la partida (velocidad, numero de rondas, tamaño de la pelota)
+- Control del jugador con mando.
+
+MÁS JUEGOS
+- Mini nivel de Mario Bros / similares
+- flappy bird
+- dino de google
+- Esquivar coches
