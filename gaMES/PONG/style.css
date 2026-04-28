@@ -9,7 +9,7 @@
     font-family: 'gameplay';
     src: url('../FONTS/Gameplay.ttf') format('truetype');
 }
-body {
+#centrar {
     display: flex;
     flex-direction: column;
     overflow: hidden;

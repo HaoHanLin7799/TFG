@@ -12,6 +12,11 @@ var jugador2;
 var HEIGHT;
 var WIDTH;
 
+let jugadorVel;
+let pelotaVelX;
+let pelotaVelY;
+let maxRondas;
+
 var keys = {};
 //CLASES
 class jugador {
@@ -60,6 +65,9 @@ function createObjets() { //CREA LOS OBJETOS COMO LA PALA QUE CONTROLAMOS EN EL 
 function load() {
     const canvaAtr = document.getElementById("gameCanvas");
     ctx = canvaAtr.getContext("2d");
+
+    jugadorVel = prompt("Velocidad del jugador:","");
+    maxRondas = prompt("Máximos de rondas:","");
 
     WIDTH = baseWidth;
     HEIGHT = baseHeight;
@@ -224,6 +232,7 @@ function moveBot() {
 }
 //BUCLE QUE ACTUALIZA EL JUEGO CONSTANTEMENTE Y PERMITE SU CORRECTO FUNCIONAMIENTO
 function gameLoop() {
+    rondas();
     moveObjets();
     colisiones();
     puntos();
@@ -232,5 +241,15 @@ function gameLoop() {
     moveBot();
     requestAnimationFrame(gameLoop);
 }
-
+function rondas(){
+    if(jugador1.puntos >= maxRondas || jugador2.puntos >= maxRondas){
+        jugador1.puntos = 0;
+        jugador2.puntos = 0;
+        alert("partida finalizada");
+        maxRondas = prompt("Máximos de rondas:","");
+    }
+}
+function partidaPerso(){
+    alert("Aquí puedes personalizar tu partida: \n" + pelotaVel + jugadorVel + maxRondas);
+}
 window.addEventListener("resize", resizeCanvas);
