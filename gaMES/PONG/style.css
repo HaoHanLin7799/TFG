@@ -22,21 +22,22 @@ body {
 }
 h1{
     color: white;
-    position: absolute;
-    top: 20px;
+    position: relative;
+    font-size: clamp(24px, 5vw, 60px);
     
 }
-#pts-J1{
+
+#pts-J1, #pts-J2{
     color: white;
-    position: absolute;
-    left: 5%;
-    font-size: 100px;
+    position:fixed;
+    font-size: clamp(24px, 5vw, 60px);
+}
+#pts-J1{
+    left: 25%;
 }
 #pts-J2{
-    color: white;
-    position: absolute;
-    right: 5%;
-    font-size: 100px;
+    right: 25%;
+    
 }
 #reset{
     position: relative;
@@ -48,7 +49,7 @@ h1{
     border-radius: 10px;
     padding: 20px;
     font-family: 'gameplay';
-    font-size: 20px;
+    font-size: clamp(14px, 2vw, 24px);
 }
 #reset:hover{
     background-color: rgb(122, 0, 0);
