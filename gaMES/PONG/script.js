@@ -17,6 +17,9 @@ let pelotaVelX;
 let pelotaVelY;
 let maxRondas;
 
+
+/* var pausa = false; */
+
 var keys = {};
 //CLASES
 class jugador {
@@ -45,30 +48,49 @@ class ball {
         this.ancho = 25; //450 MAX
         this.alto =this.ancho;
     }
-
+    
     moverX() {
         this.x += this.velX;
     }
     moverY(){
-    this.y += this.velY;
+        this.y += this.velY;
     }
 }
 
 
 function createObjets() { //CREA LOS OBJETOS COMO LA PALA QUE CONTROLAMOS EN EL JUEGO Y LA PELOTA QUE GOLPEAMOS EN BASE A LA CLASE CREADAA ANTERIORMENTE
-
+    
     jugador1 = new jugador(30, HEIGHT / 2 - 75);
     jugador2 = new jugador(WIDTH - 50, HEIGHT / 2 - 75);
     pelota = new ball(WIDTH / 2 - 12.5, HEIGHT / 2 - 12.5);
+}
+//DIBUJA LOS OBJETOS DENTRO DEL CANVAS
+function draw() {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+    var color = document.getElementById("ctxColor").value;
+    ctx.fillStyle = color;
+
+    document.getElementById("pts-J1").style.color = color;
+    document.getElementById("pts-J2").style.color = color;
+    document.getElementById("gameCanvas").style.borderColor = color;
+
+    //Linea del medio
+    ctx.fillRect(WIDTH / 2 - 4, 10, WIDTH / WIDTH + 5, HEIGHT - 20);
+
+    //Entidades
+    ctx.fillRect(jugador1.x, jugador1.y, jugador1.ancho, jugador1.alto);
+    ctx.fillRect(jugador2.x, jugador2.y, jugador2.ancho, jugador2.alto);
+    ctx.fillRect(pelota.x, pelota.y, pelota.ancho, pelota.alto);
 }
 
 function load() {
     const canvaAtr = document.getElementById("gameCanvas");
     ctx = canvaAtr.getContext("2d");
-
+    
     jugadorVel = prompt("Velocidad del jugador:","");
     maxRondas = prompt("Máximos de rondas:","");
-
+    
     WIDTH = baseWidth;
     HEIGHT = baseHeight;
 
@@ -76,13 +98,22 @@ function load() {
 
     createObjets();
     gameLoop();
+
+   /*  if(pausa == true){
+        ctx.fillText("Juego Pausado",WIDTH/2 , HEIGHT/2);
+        pelota.velX = 0;
+        pelota.velY = 0;
+    }else{
+        pelota.velX = 7;
+        pelota.velY = 7;
+    } */
 }
 //REDIMENSIONA EL CANVAS EN BASE AL TAMAÑO DE LA VENTANA
 function resizeCanvas(){
     const canvas = document.getElementById("gameCanvas");
 
     const availableW = window.innerWidth * 0.95;
-    const availableH = window.innerHeight * 0.85;
+    const availableH = window.innerHeight * 0.80;
 
     scale = Math.min(availableW / baseWidth, availableH / baseHeight);
 
@@ -95,7 +126,6 @@ function resizeCanvas(){
 }
 //MUEVE LA PELOTA EN LOS EJES X E Y
 function moveObjets() {
-    
     pelota.moverX();
     pelota.moverY();   
 }
@@ -176,19 +206,6 @@ function puntos() { //DETECTA SI LA PELOTA A SALIDO DEL CAMPO DE JUEGO POR ALGUN
         pelota.velX = -7;
     }
 }
-//DIBUJA LOS OBJETOS DENTRO DEL CANVAS
-function draw() {
-    ctx.clearRect(0, 0, WIDTH, HEIGHT);
-    ctx.fillStyle = "#fffc";
-
-    //Linea del medio
-    ctx.fillRect(WIDTH / 2 - 4, 10, WIDTH / WIDTH + 5, HEIGHT - 20);
-
-    //Entidades
-    ctx.fillRect(jugador1.x, jugador1.y, jugador1.ancho, jugador1.alto);
-    ctx.fillRect(jugador2.x, jugador2.y, jugador2.ancho, jugador2.alto);
-    ctx.fillRect(pelota.x, pelota.y, pelota.ancho, pelota.alto);
-}
 
 document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
@@ -213,11 +230,14 @@ function moverJugador() { //DETECTA LAS TECLAS PULSADAS Y MUEVE AL JUGADOR
     if (keys["ArrowDown"]) {
         jugador2.mover(1);
     }
-    /* if (jugador2.y == jugador2.y + 0 && pelota.velX == -Math.abs(pelota.velX)){
-            jugador2.y += pelota.velY * 1.3;
+    /* if (keys["Escape"] || keys["p"] || keys["P"]) {
+        pausa = !pausa;
     } */
-
 }
+
+
+
+
 
 //BOT (DETECTA LA POSIVION DE LA PELOTA Y MUEVE AUTOMATICAMENTE A JUGADOR 2 A ELLA)
 function moveBot() {
@@ -242,14 +262,17 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 function rondas(){
-    if(jugador1.puntos >= maxRondas || jugador2.puntos >= maxRondas){
+    if(jugador1.puntos >= maxRondas){
         jugador1.puntos = 0;
         jugador2.puntos = 0;
-        alert("partida finalizada");
+        alert("J1 Gana");
         maxRondas = prompt("Máximos de rondas:","");
     }
-}
-function partidaPerso(){
-    alert("Aquí puedes personalizar tu partida: \n" + pelotaVel + jugadorVel + maxRondas);
+    if(jugador2.puntos >= maxRondas){
+        jugador1.puntos = 0;
+        jugador2.puntos = 0;
+        alert("J2 Gana");
+        maxRondas = prompt("Máximos de rondas:","");
+    }
 }
 window.addEventListener("resize", resizeCanvas);

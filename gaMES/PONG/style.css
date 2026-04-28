@@ -2,18 +2,17 @@
     border: 5px solid white;
     background-color: black;
     display: block;
-    margin: 0 auto;
+    
 }
 
 @font-face {
     font-family: 'gameplay';
     src: url('../FONTS/Gameplay.ttf') format('truetype');
 }
-#centrar {
+body {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
@@ -23,33 +22,33 @@
 h1{
     color: white;
     position: relative;
-    font-size: clamp(24px, 5vw, 60px);
-    
+    margin: 1% 0 10px 0; /*Arriba, derecha, abajo, izquierda*/
+    font-size: clamp(16px, 3vw, 36px); /*mínimo, por defecto, máximo*/
 }
 
 #pts-J1, #pts-J2{
     color: white;
     position:fixed;
-    font-size: clamp(24px, 5vw, 60px);
+    top: 5%;
+    font-size: clamp(30px, 6vw, 70px);
 }
 #pts-J1{
-    left: 25%;
+    left: 30%;
 }
 #pts-J2{
-    right: 25%;
-    
+    right: 30%;
 }
 #reset{
     position: relative;
     top: auto;
-    margin-top: 20px;
+    margin-top: 10px;
     color: lightgray;
     background-color: #a00;
     border: none;
     border-radius: 10px;
     padding: 20px;
     font-family: 'gameplay';
-    font-size: clamp(14px, 2vw, 24px);
+    font-size: clamp(10px, 2vw, 20px);
 }
 #reset:hover{
     background-color: rgb(122, 0, 0);
