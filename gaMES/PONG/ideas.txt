@@ -1,8 +1,9 @@
 PONG
 - PJ VS BOT // En pruebas
 - Tamaño de l campo de jugeo adaptativo al tamaño de ventana del usuario.
-- Ventana emergente para personalizar la partida (velocidad, numero de rondas, tamaño de la pelota)
+- Ventana emergente para personalizar la partida (velocidad, numero de rondas, tamaño de la pelota, color del campo)
 - Control del jugador con mando.
+- Control tactil para el móvil
 
 MÁS JUEGOS
 - Mini nivel de Mario Bros / similares

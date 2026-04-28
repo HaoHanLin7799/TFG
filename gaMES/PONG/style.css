@@ -11,6 +11,8 @@
 }
 body {
     display: flex;
+    flex-direction: column;
+    overflow: hidden;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -20,32 +22,34 @@ body {
 }
 h1{
     color: white;
-    position: absolute;
-    top: 20px;
+    position: relative;
+    font-size: clamp(24px, 5vw, 60px);
     
 }
-#pts-J1{
+
+#pts-J1, #pts-J2{
     color: white;
-    position: absolute;
-    right: calc(50% + 600px);
-    font-size: 100px;
+    position:fixed;
+    font-size: clamp(24px, 5vw, 60px);
+}
+#pts-J1{
+    left: 25%;
 }
 #pts-J2{
-    color: white;
-    position: absolute;
-    left: calc(50% + 600px);
-    font-size: 100px;
+    right: 25%;
+    
 }
 #reset{
-    position: absolute;
-    top: 835px;
+    position: relative;
+    top: auto;
+    margin-top: 20px;
     color: lightgray;
     background-color: #a00;
     border: none;
     border-radius: 10px;
     padding: 20px;
     font-family: 'gameplay';
-    font-size: 20px;
+    font-size: clamp(14px, 2vw, 24px);
 }
 #reset:hover{
     background-color: rgb(122, 0, 0);
