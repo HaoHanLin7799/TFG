@@ -18,7 +18,7 @@ let pelotaVelY;
 let maxRondas;
 
 
-/* var pausa = false; */
+var pausa = false;
 
 var keys = {};
 //CLASES
@@ -88,38 +88,38 @@ function load() {
     const canvaAtr = document.getElementById("gameCanvas");
     ctx = canvaAtr.getContext("2d");
     
-    jugadorVel = prompt("Velocidad del jugador:","");
     maxRondas = prompt("Máximos de rondas:","");
     
     WIDTH = baseWidth;
     HEIGHT = baseHeight;
-
+    
     resizeCanvas();
-
+    
     createObjets();
     gameLoop();
-
-   /*  if(pausa == true){
-        ctx.fillText("Juego Pausado",WIDTH/2 , HEIGHT/2);
+/*No funciona, motivo desconocido, investigar y probar*/
+    if(pausa == true){
+        ctx.font = "20px Arial"
+        ctx.fillText("PAUSA",WIDTH/2 , HEIGHT/2);
         pelota.velX = 0;
         pelota.velY = 0;
-    }else{
+    }else if (pausa == false){
         pelota.velX = 7;
         pelota.velY = 7;
-    } */
+    }
 }
 //REDIMENSIONA EL CANVAS EN BASE AL TAMAÑO DE LA VENTANA
 function resizeCanvas(){
     const canvas = document.getElementById("gameCanvas");
-
+    
     const availableW = window.innerWidth * 0.95;
     const availableH = window.innerHeight * 0.80;
-
+    
     scale = Math.min(availableW / baseWidth, availableH / baseHeight);
-
+    
     canvas.style.width = (baseWidth * scale) + "px";
     canvas.style.height = (baseHeight * scale) + "px";
-
+    
     if (canvas.style.width > 1000){
         canvas.width = 700;
     }
@@ -142,21 +142,21 @@ function colisiones() {
     // Limites de pantalla para jugadores
     if (jugador1.y < 0) jugador1.y = 0;
     if (jugador1.y + jugador1.alto > HEIGHT) jugador1.y = HEIGHT - jugador1.alto;
-
+    
     if (jugador2.y < 0) jugador2.y = 0;
     if (jugador2.y + jugador2.alto > HEIGHT) jugador2.y = HEIGHT - jugador2.alto;
-
+    
     //Colisión de la pelota con los jugadores
     if (pelota.x < jugador1.x + jugador1.ancho
         && pelota.x + pelota.ancho > jugador1.x
         && pelota.y < jugador1.y + jugador1.alto
         && pelota.y + pelota.alto > jugador1.y) {
-
+            
         pelota.x = jugador1.x + jugador1.ancho;
         pelota.velX = Math.abs(25);
     }
-
-
+    
+    
     if (pelota.x + pelota.ancho < jugador2.x + jugador2.ancho
         && pelota.x + pelota.ancho > jugador2.x
         && pelota.y < jugador2.y + jugador2.alto
@@ -166,29 +166,33 @@ function colisiones() {
         pelota.velX = -Math.abs(25);
     }
 }
+function resetJugador(){
+    jugador1.y = HEIGHT/2 -75;
+    jugador2.y = HEIGHT /2 -75;
+    }
+function resetPelota(){
+    pelota.x = WIDTH/2 -12.5;
+    pelota.y = HEIGHT/2 -12.5;
+}
 function puntos() { //DETECTA SI LA PELOTA A SALIDO DEL CAMPO DE JUEGO POR ALGUNO DE LOS LATERALES Y EN BASE AL LATERAL SUMA PUNTOS A LOS JUGADORES
-
+    
     //Puntos Jugador 1
     if (pelota.x > WIDTH) {
-
-        jugador1.y = HEIGHT / 2 - 75;
-        jugador2.y = HEIGHT / 2 - 75;
-        pelota.x = WIDTH / 2 - 12.5;
-        pelota.y = HEIGHT / 2 - 12.5; // ESTO HACE QUE LA PELOTA SE REINICIE POR COMPLETO TRAS EL PUNTO, SI SE ELIMINA SE HARIA EL JUEGO MÁS ALEATORIO
+        
+        resetJugador();
+        resetPelota();
         jugador1.puntos += 1;
         pelota.velX = 7;
         jugador2.limit += 1;
         jugador1.limit = 0;
         document.getElementById("pts-J1").innerHTML = jugador1.puntos;
     }
-
+    
     //Puntos Jugador 2
     if (pelota.x + pelota.ancho < 0) {
-
-        jugador1.y = HEIGHT / 2 - 75;
-        jugador2.y = HEIGHT / 2 - 75;
-        pelota.x = WIDTH / 2 - 12.5;
-        pelota.y = HEIGHT / 2 - 12.5; //LEER COMENTARIO DE "//Puntos Jugador 1"
+        
+        resetJugador();
+        resetPelota();
         jugador2.puntos += 1;
         pelota.velX = -7;
         jugador1.limit += 1;
@@ -230,18 +234,15 @@ function moverJugador() { //DETECTA LAS TECLAS PULSADAS Y MUEVE AL JUGADOR
     if (keys["ArrowDown"]) {
         jugador2.mover(1);
     }
-    /* if (keys["Escape"] || keys["p"] || keys["P"]) {
+    if (keys["Escape"] || keys["p"] || keys["P"]) {
         pausa = !pausa;
-    } */
+    }
 }
-
-
-
 
 
 //BOT (DETECTA LA POSIVION DE LA PELOTA Y MUEVE AUTOMATICAMENTE A JUGADOR 2 A ELLA)
 function moveBot() {
-  let paddleCenter = jugador2.y + jugador2.alto / 2;
+    let paddleCenter = jugador2.y + jugador2.alto / 2;
   let errorMargin =Math.random() * 95; //Margén de error para hacer el juego más justo (dicho margen es aleatorio)
     
         if (paddleCenter < pelota.y - errorMargin) {
@@ -267,12 +268,16 @@ function rondas(){
         jugador2.puntos = 0;
         alert("J1 Gana");
         maxRondas = prompt("Máximos de rondas:","");
+        document.getElementById("pts-1").innerHTML = "0";
+        document.getElementById("pts-2").innerHTML = "0";
     }
     if(jugador2.puntos >= maxRondas){
         jugador1.puntos = 0;
         jugador2.puntos = 0;
         alert("J2 Gana");
         maxRondas = prompt("Máximos de rondas:","");
+        document.getElementById("pts-J1").innerHTML = "0";
+        document.getElementById("pts-J2").innerHTML = "0";
     }
 }
 window.addEventListener("resize", resizeCanvas);
