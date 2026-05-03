@@ -13,12 +13,15 @@ var HEIGHT;
 var WIDTH;
 
 let jugadorVel;
-let pelotaVelX;
-let pelotaVelY;
-let maxRondas;
-
+let pelotaVelX = 7;
+let pelotaVelY = 7;
 
 var pausa = false;
+var pausaValor = 1;
+
+
+var ultimoPulsado = 0;
+var delay = 250;
 
 var keys = {};
 //CLASES
@@ -26,8 +29,8 @@ class jugador {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.velX = 0; //Sin utilidad por el momento, Idea: añadir un modo con controles para el eje X
-        this.velY = 10;
+        this.velX = 0 * pausaValor; //Sin utilidad por el momento, Idea: añadir un modo con controles para el eje X
+        this.velY = 10 * pausaValor;
         this.ancho = 25;
         this.alto = 150;
         this.puntos = 0;
@@ -43,8 +46,8 @@ class ball {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.velX = 7;
-        this.velY = 7;
+        this.velX = pelotaVelX * pausaValor;
+        this.velY = pelotaVelY * pausaValor;
         this.ancho = 25; //450 MAX
         this.alto =this.ancho;
     }
@@ -61,7 +64,7 @@ class ball {
 function createObjets() { //CREA LOS OBJETOS COMO LA PALA QUE CONTROLAMOS EN EL JUEGO Y LA PELOTA QUE GOLPEAMOS EN BASE A LA CLASE CREADAA ANTERIORMENTE
     
     jugador1 = new jugador(30, HEIGHT / 2 - 75);
-    jugador2 = new jugador(WIDTH - 50, HEIGHT / 2 - 75);
+    jugador2 = new jugador(WIDTH - 55, HEIGHT / 2 - 75);
     pelota = new ball(WIDTH / 2 - 12.5, HEIGHT / 2 - 12.5);
 }
 //DIBUJA LOS OBJETOS DENTRO DEL CANVAS
@@ -88,7 +91,6 @@ function load() {
     const canvaAtr = document.getElementById("gameCanvas");
     ctx = canvaAtr.getContext("2d");
     
-    maxRondas = prompt("Máximos de rondas:","");
     
     WIDTH = baseWidth;
     HEIGHT = baseHeight;
@@ -97,16 +99,8 @@ function load() {
     
     createObjets();
     gameLoop();
-/*No funciona, motivo desconocido, investigar y probar*/
-    if(pausa == true){
-        ctx.font = "20px Arial"
-        ctx.fillText("PAUSA",WIDTH/2 , HEIGHT/2);
-        pelota.velX = 0;
-        pelota.velY = 0;
-    }else if (pausa == false){
-        pelota.velX = 7;
-        pelota.velY = 7;
-    }
+
+
 }
 //REDIMENSIONA EL CANVAS EN BASE AL TAMAÑO DE LA VENTANA
 function resizeCanvas(){
@@ -182,7 +176,7 @@ function puntos() { //DETECTA SI LA PELOTA A SALIDO DEL CAMPO DE JUEGO POR ALGUN
         resetJugador();
         resetPelota();
         jugador1.puntos += 1;
-        pelota.velX = 7;
+        pelota.velX = pelotaVelX;
         jugador2.limit += 1;
         jugador1.limit = 0;
         document.getElementById("pts-J1").innerHTML = jugador1.puntos;
@@ -194,7 +188,7 @@ function puntos() { //DETECTA SI LA PELOTA A SALIDO DEL CAMPO DE JUEGO POR ALGUN
         resetJugador();
         resetPelota();
         jugador2.puntos += 1;
-        pelota.velX = -7;
+        pelota.velX = -pelotaVelX;
         jugador1.limit += 1;
         jugador2.limit = 0;
         document.getElementById("pts-J2").innerHTML = jugador2.puntos;
@@ -202,12 +196,12 @@ function puntos() { //DETECTA SI LA PELOTA A SALIDO DEL CAMPO DE JUEGO POR ALGUN
     //LIMITA EL NUMERO DE PUNTOS QUE PUEDE RECIBIR UN JUGADOR ANTES DE CAMBIAR EL LADO DEL SAQUE
     if (jugador1.limit == 3){
         jugador1.limit = 0;
-        pelota.velX = 7;
+        pelota.velX = pelotaVelX;
     }
 
     if (jugador2.limit == 3){
         jugador2.limit = 0;
-        pelota.velX = -7;
+        pelota.velX = -pelotaVelX;
     }
 }
 
@@ -234,16 +228,13 @@ function moverJugador() { //DETECTA LAS TECLAS PULSADAS Y MUEVE AL JUGADOR
     if (keys["ArrowDown"]) {
         jugador2.mover(1);
     }
-    if (keys["Escape"] || keys["p"] || keys["P"]) {
-        pausa = !pausa;
-    }
 }
 
 
 //BOT (DETECTA LA POSIVION DE LA PELOTA Y MUEVE AUTOMATICAMENTE A JUGADOR 2 A ELLA)
 function moveBot() {
     let paddleCenter = jugador2.y + jugador2.alto / 2;
-  let errorMargin =Math.random() * 95; //Margén de error para hacer el juego más justo (dicho margen es aleatorio)
+  let errorMargin =Math.random() * 95; //Margen de error para hacer el juego más justo (dicho margen es aleatorio)
     
         if (paddleCenter < pelota.y - errorMargin) {
         jugador2.y += jugador2.velY;
@@ -251,33 +242,63 @@ function moveBot() {
         jugador2.y -= jugador2.velY;
         }
 }
+function pausar(){
+    if (keys["Escape"] || keys["p"] || keys["P"]) {
+        const ahora = Date.now();
+        
+        if(ahora - ultimoPulsado > delay){
+            pausa = !pausa;
+            console.log(pausa ? "pausa" : "reanuda");
+            ultimoPulsado = ahora;
+        }}
+
+        const menu = document.getElementById("pausa");
+    if (pausa) {
+        menu.style.display = "flex";
+        pausaValor = 0;
+    } else {
+        menu.style.display = "none";
+        pausaValor = 1;
+    }
+}
+ 
 //BUCLE QUE ACTUALIZA EL JUEGO CONSTANTEMENTE Y PERMITE SU CORRECTO FUNCIONAMIENTO
 function gameLoop() {
-    rondas();
-    moveObjets();
-    colisiones();
-    puntos();
-    moverJugador();
-    draw();
-    moveBot();
-    requestAnimationFrame(gameLoop);
+    if(!pausa){
+        moveObjets();
+        moverJugador();
+
+        const bot= document.getElementById("activarBot");
+        if(bot.checked){
+        moveBot();
+    }
+}
+        puntos();
+        rondas();
+        colisiones();
+        draw();
+        requestAnimationFrame(gameLoop);
+        pausar();
 }
 function rondas(){
+    let maxRondas = Number(document.getElementById("nRondas").value);
+
+    if(maxRondas >0){
     if(jugador1.puntos >= maxRondas){
+        alert("Jugador 1 Gana");
         jugador1.puntos = 0;
         jugador2.puntos = 0;
-        alert("J1 Gana");
-        maxRondas = prompt("Máximos de rondas:","");
-        document.getElementById("pts-1").innerHTML = "0";
-        document.getElementById("pts-2").innerHTML = "0";
+        document.getElementById("pts-J1").innerHTML = "0";
+        document.getElementById("pts-J2").innerHTML = "0";
     }
     if(jugador2.puntos >= maxRondas){
+        alert("Jugador 2 Gana");
         jugador1.puntos = 0;
         jugador2.puntos = 0;
-        alert("J2 Gana");
-        maxRondas = prompt("Máximos de rondas:","");
         document.getElementById("pts-J1").innerHTML = "0";
         document.getElementById("pts-J2").innerHTML = "0";
     }
 }
+} 
 window.addEventListener("resize", resizeCanvas);
+

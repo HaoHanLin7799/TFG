@@ -1,6 +1,5 @@
 PONG
-- Ventana emergente para personalizar la partida (velocidad, numero de rondas, tamaño de la pelota, color del campo), cuando se delplegue
-dicha ventana el juego se ponda en pausa
+- Modificador de tamaños, velocidades, modo movimiento en X.
 - Control del jugador con mando.
 - Control tactil para el móvil
 

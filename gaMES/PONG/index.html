@@ -5,13 +5,33 @@
     <title>PONG</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <link rel="icon" href="pong (ICONO WEB).png" type="image/x-icon">
 </head>
 <body onload="load()">
         <h1>PONG</h1>
         <h2 id="pts-J1">0</h2>
         <h2 id="pts-J2">0</h2>
         <canvas id="gameCanvas" width="1000" height="700"></canvas>
-        <button onclick="location.reload()" id="reset">REINICIAR PARTIDA</button>
-        <input type="color" id="ctxColor" value="#fffc">
+        <p class="avisoPausa">presiona "P" o "Escape" para pausar el juego</p>
+        
+        <div id="pausa">
+            <div id="opciones">
+                <h1>JUEGO PAUSADO</h1>
+                <p>el juego se encuetra en pausa</p>
+                <div id="opcionesFondo">
+                <label for="ctxColor">ELEGIR COLOR</label>
+                <input type="color" name="ctxColor" id="ctxColor" value="#ffffff"><br><br>
+
+                <label for="nRondas">TOPE DE RONDAS (0 = infinito)</label>
+                <input type="number" name="nRondas" id="nRondas" value="0" placeholder="0"><br><br>
+                
+                <label for="bot">BOT</label>
+                <input type="checkbox" id="activarBot">
+                
+                <div id="boton"><button onclick="location.reload()" id="reset">REINICIAR PARTIDA</button></div>
+            </div>
+            <p class="avisoPausa"> presiona "P" o "Escape" para reanudar el juego.</p>
+        </div>
+        </div>
 </body>
-</html>   
+</html>
