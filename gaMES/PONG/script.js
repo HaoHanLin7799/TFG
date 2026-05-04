@@ -141,13 +141,15 @@ function colisiones() {
     if (jugador2.y + jugador2.alto > HEIGHT) jugador2.y = HEIGHT - jugador2.alto;
     
     //Colisión de la pelota con los jugadores
+    let velPelota = Number(document.getElementById("velPelota").value);
+
     if (pelota.x < jugador1.x + jugador1.ancho
         && pelota.x + pelota.ancho > jugador1.x
         && pelota.y < jugador1.y + jugador1.alto
         && pelota.y + pelota.alto > jugador1.y) {
             
         pelota.x = jugador1.x + jugador1.ancho;
-        pelota.velX = Math.abs(25);
+        pelota.velX = Math.abs(velPelota);
     }
     
     
@@ -157,7 +159,7 @@ function colisiones() {
         && pelota.y + pelota.alto > jugador2.y) {
 
         pelota.x = jugador2.x - pelota.ancho;
-        pelota.velX = -Math.abs(25);
+        pelota.velX = -Math.abs(velPelota);
     }
 }
 function resetJugador(){

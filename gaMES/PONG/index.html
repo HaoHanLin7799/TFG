@@ -17,21 +17,24 @@
         <div id="pausa">
             <div id="opciones">
                 <h1>JUEGO PAUSADO</h1>
-                <p>el juego se encuetra en pausa</p>
+                <p>el juego se encuentra en pausa</p>
                 <div id="opcionesFondo">
-                <label for="ctxColor">ELEGIR COLOR</label>
-                <input type="color" name="ctxColor" id="ctxColor" value="#ffffff"><br><br>
+                    <label for="ctxColor">ELEGIR COLOR</label>
+                    <input type="color" name="ctxColor" id="ctxColor" value="#ffffff"><br><br>
 
-                <label for="nRondas">TOPE DE RONDAS (0 = infinito)</label>
-                <input type="number" name="nRondas" id="nRondas" value="0" placeholder="0"><br><br>
-                
-                <label for="bot">BOT</label>
-                <input type="checkbox" id="activarBot">
-                
-                <div id="boton"><button onclick="location.reload()" id="reset">REINICIAR PARTIDA</button></div>
-            </div>
+                    <label for="nRondas">TOPE DE RONDAS (0 = infinito)</label>
+                    <input type="number" name="nRondas" id="nRondas" value="0" placeholder="0"><br><br>
+                    
+                    <label for="velPelota">VELOCIDAD DE LA PELOTA</label>
+                    <input type="number" name="velPelota" id="velPelota" value="25" placeholder="25"><br><br>
+
+                    <label for="bot">BOT</label>
+                    <input type="checkbox" id="activarBot">
+                    
+                    <div id="resetButon"><button onclick="location.reload()" id="reset">REINICIAR PARTIDA</button></div>
+                </div>
             <p class="avisoPausa"> presiona "P" o "Escape" para reanudar el juego.</p>
-        </div>
+            </div>
         </div>
 </body>
 </html>
