@@ -29,8 +29,8 @@ class jugador {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.velX = 0 * pausaValor; //Sin utilidad por el momento, Idea: añadir un modo con controles para el eje X
-        this.velY = 10 * pausaValor;
+        this.velX = 0, //Sin utilidad por el momento, Idea: añadir un modo con controles para el eje X
+        this.velY = 10,
         this.ancho = 25;
         this.alto = 150;
         this.puntos = 0;
@@ -46,8 +46,8 @@ class ball {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.velX = pelotaVelX * pausaValor;
-        this.velY = pelotaVelY * pausaValor;
+        this.velX = pelotaVelX
+        this.velY = pelotaVelY
         this.ancho = 25; //450 MAX
         this.alto =this.ancho;
     }
@@ -113,10 +113,6 @@ function resizeCanvas(){
     
     canvas.style.width = (baseWidth * scale) + "px";
     canvas.style.height = (baseHeight * scale) + "px";
-    
-    if (canvas.style.width > 1000){
-        canvas.width = 700;
-    }
 }
 //MUEVE LA PELOTA EN LOS EJES X E Y
 function moveObjects() {
