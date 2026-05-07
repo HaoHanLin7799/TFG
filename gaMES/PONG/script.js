@@ -61,7 +61,7 @@ class ball {
 }
 
 
-function createObjets() { //CREA LOS OBJETOS COMO LA PALA QUE CONTROLAMOS EN EL JUEGO Y LA PELOTA QUE GOLPEAMOS EN BASE A LA CLASE CREADAA ANTERIORMENTE
+function createObjects() { //CREA LOS OBJETOS COMO LA PALA QUE CONTROLAMOS EN EL JUEGO Y LA PELOTA QUE GOLPEAMOS EN BASE A LA CLASE CREADA ANTERIORMENTE
     
     jugador1 = new jugador(30, HEIGHT / 2 - 75);
     jugador2 = new jugador(WIDTH - 55, HEIGHT / 2 - 75);
@@ -97,7 +97,7 @@ function load() {
     
     resizeCanvas();
     
-    createObjets();
+    createObjects();
     gameLoop();
 
 
@@ -119,7 +119,7 @@ function resizeCanvas(){
     }
 }
 //MUEVE LA PELOTA EN LOS EJES X E Y
-function moveObjets() {
+function moveObjects() {
     pelota.moverX();
     pelota.moverY();   
 }
@@ -230,10 +230,13 @@ function moverJugador() { //DETECTA LAS TECLAS PULSADAS Y MUEVE AL JUGADOR
     if (keys["ArrowDown"]) {
         jugador2.mover(1);
     }
+// Fallo cuando se juega contra el bot REVISAR
+    var velPersoJugador = document.getElementById("velJugador").value;
+    jugador1.velY= velPersoJugador;
+    jugador2.velY= velPersoJugador;
 }
 
-
-//BOT (DETECTA LA POSIVION DE LA PELOTA Y MUEVE AUTOMATICAMENTE A JUGADOR 2 A ELLA)
+//BOT (DETECTA LA POSICIÓN DE LA PELOTA Y MUEVE AUTOMÁTICAMENTE A JUGADOR 2 A ELLA)
 function moveBot() {
     let paddleCenter = jugador2.y + jugador2.alto / 2;
   let errorMargin =Math.random() * 95; //Margen de error para hacer el juego más justo (dicho margen es aleatorio)
@@ -267,7 +270,7 @@ function pausar(){
 //BUCLE QUE ACTUALIZA EL JUEGO CONSTANTEMENTE Y PERMITE SU CORRECTO FUNCIONAMIENTO
 function gameLoop() {
     if(!pausa){
-        moveObjets();
+        moveObjects();
         moverJugador();
 
         const bot= document.getElementById("activarBot");
@@ -303,4 +306,3 @@ function rondas(){
 }
 } 
 window.addEventListener("resize", resizeCanvas);
-
