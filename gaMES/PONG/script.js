@@ -230,10 +230,6 @@ function moverJugador() { //DETECTA LAS TECLAS PULSADAS Y MUEVE AL JUGADOR
     if (keys["ArrowDown"]) {
         jugador2.mover(1);
     }
-// Fallo cuando se juega contra el bot REVISAR
-    var velPersoJugador = document.getElementById("velJugador").value;
-    jugador1.velY= velPersoJugador;
-    jugador2.velY= velPersoJugador;
 }
 
 //BOT (DETECTA LA POSICIÓN DE LA PELOTA Y MUEVE AUTOMÁTICAMENTE A JUGADOR 2 A ELLA)
