@@ -17,7 +17,6 @@ let pelotaVelX = 7;
 let pelotaVelY = 7;
 
 var pausa = false;
-var pausaValor = 1;
 
 
 var ultimoPulsado = 0;
@@ -67,6 +66,7 @@ function createObjects() { //CREA LOS OBJETOS COMO LA PALA QUE CONTROLAMOS EN EL
     jugador2 = new jugador(WIDTH - 55, HEIGHT / 2 - 75);
     pelota = new ball(WIDTH / 2 - 12.5, HEIGHT / 2 - 12.5);
 }
+
 //DIBUJA LOS OBJETOS DENTRO DEL CANVAS
 function draw() {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -158,14 +158,17 @@ function colisiones() {
         pelota.velX = -Math.abs(velPelota);
     }
 }
+
 function resetJugador(){
     jugador1.y = HEIGHT/2 -75;
     jugador2.y = HEIGHT /2 -75;
     }
+
 function resetPelota(){
     pelota.x = WIDTH/2 -12.5;
     pelota.y = HEIGHT/2 -12.5;
 }
+
 function puntos() { //DETECTA SI LA PELOTA A SALIDO DEL CAMPO DE JUEGO POR ALGUNO DE LOS LATERALES Y EN BASE AL LATERAL SUMA PUNTOS A LOS JUGADORES
     
     //Puntos Jugador 1
@@ -252,13 +255,32 @@ function pausar(){
         const menu = document.getElementById("pausa");
     if (pausa) {
         menu.style.display = "flex";
-        pausaValor = 0;
     } else {
         menu.style.display = "none";
-        pausaValor = 1;
     }
 }
- 
+
+function rondas(){
+    let maxRondas = Number(document.getElementById("nRondas").value);
+
+    if(maxRondas >0){
+        if(jugador1.puntos >= maxRondas){
+            alert("Jugador 1 Gana");
+            jugador1.puntos = 0;
+            jugador2.puntos = 0;
+            document.getElementById("pts-J1").innerHTML = "0";
+            document.getElementById("pts-J2").innerHTML = "0";
+        }
+        if(jugador2.puntos >= maxRondas){
+            alert("Jugador 2 Gana");
+            jugador1.puntos = 0;
+            jugador2.puntos = 0;
+            document.getElementById("pts-J1").innerHTML = "0";
+            document.getElementById("pts-J2").innerHTML = "0";
+        }
+    }
+} 
+
 //BUCLE QUE ACTUALIZA EL JUEGO CONSTANTEMENTE Y PERMITE SU CORRECTO FUNCIONAMIENTO
 function gameLoop() {
     if(!pausa){
@@ -277,24 +299,4 @@ function gameLoop() {
         requestAnimationFrame(gameLoop);
         pausar();
 }
-function rondas(){
-    let maxRondas = Number(document.getElementById("nRondas").value);
-
-    if(maxRondas >0){
-    if(jugador1.puntos >= maxRondas){
-        alert("Jugador 1 Gana");
-        jugador1.puntos = 0;
-        jugador2.puntos = 0;
-        document.getElementById("pts-J1").innerHTML = "0";
-        document.getElementById("pts-J2").innerHTML = "0";
-    }
-    if(jugador2.puntos >= maxRondas){
-        alert("Jugador 2 Gana");
-        jugador1.puntos = 0;
-        jugador2.puntos = 0;
-        document.getElementById("pts-J1").innerHTML = "0";
-        document.getElementById("pts-J2").innerHTML = "0";
-    }
-}
-} 
 window.addEventListener("resize", resizeCanvas);
